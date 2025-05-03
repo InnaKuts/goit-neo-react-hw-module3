@@ -3,6 +3,7 @@ import "./App.css";
 import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import ContactForm from "./components/ContactForm/ContactForm";
+import { nanoid } from "nanoid";
 
 function App() {
   const [contacts, setContacts] = useState([
@@ -12,6 +13,15 @@ function App() {
     { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
   ]);
   const [filter, setFilter] = useState("");
+
+  const handleAddContact = ({ name, number }) => {
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+  };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -26,7 +36,7 @@ function App() {
       <div>
         <div>
           <h1>Phonebook</h1>
-          <ContactForm onAddContact={() => {}} />
+          <ContactForm onAddContact={handleAddContact} />
           <SearchBox value={filter} onChange={handleFilterChange} />
           <ContactList contacts={filteredContacts} onDeleteContact={() => {}} />
         </div>
